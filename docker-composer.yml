@@ -1,0 +1,18 @@
+version: "3.8"
+
+services:
+  jenkins:
+    image: jenkins/jenkins:lts
+    container_name: jenkins
+    user: root
+    ports:
+      - "8080:8080"       # Giao diện Jenkins UI → http://IP_VM:8080
+      - "50000:50000"     # Jenkins agent (có thể không dùng nếu không có slave agent)
+    volumes:
+      - jenkins_home:/var/jenkins_home             # Lưu dữ liệu Jenkins (job, plugin, config)
+      - /var/run/docker.sock:/var/run/docker.sock  # Cho phép Jenkins sử dụng Docker host
+      - /usr/bin/docker:/usr/bin/docker            # Mount docker CLI (nếu cần)
+    restart: always
+
+volumes:
+  jenkins_home:
